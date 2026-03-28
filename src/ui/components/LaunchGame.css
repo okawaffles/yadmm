@@ -1,0 +1,21 @@
+.yadmm-launch {
+    background-color: var(--button-enabled-bg);
+    border: 2px solid var(--button-enabled-accent);
+    color: var(--button-enabled-accent);
+    border-radius: .5rem;
+    font-family: monospace;
+    padding: 0 1rem;
+    margin: 2px 1rem;
+    transition: .25s all;
+    cursor: pointer;
+}
+
+.yadmm-launch:hover {
+    background-color: var(--button-enabled-bg-hover);
+}
+
+.yadmm-launch:disabled {
+    background-color: var(--navbar-bg) !important;
+    color: var(--text-darker) !important;
+    border: 2px solid var(--text-darker) !important;
+}

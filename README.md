@@ -1,5 +1,5 @@
 # yadmm - Yet Another Diva Mod Manager
-A (currently barebones) mod manager for Project Diva MegaMix+ written in Electron and React.
+A (currently barebones) mod manager for Project Diva MegaMix+ written in Electron and React. It's pronounced "yad-em-em", not "yadam".
 ## Currently Supported Features:
 - literally nothing except rendering example elements.
 ## Planned Additions

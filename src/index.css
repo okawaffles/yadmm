@@ -31,3 +31,7 @@ body {
     border-color: var(--text-accent);
     margin: 4px .75rem;
 }
+
+h1 {
+    pointer-events: none;
+}

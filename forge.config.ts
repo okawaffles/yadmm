@@ -39,6 +39,7 @@ const config: ForgeConfig = {
           },
         ],
       },
+        devContentSecurityPolicy: "img-src 'self' data: https://gamebanana.com https://images.gamebanana.com https://divamodarchive.com;"
     }),
     // Fuses are used to enable/disable various Electron functionality
     // at package time, before code signing the application

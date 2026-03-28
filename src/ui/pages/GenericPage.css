@@ -5,6 +5,7 @@
 .yadmm-page .title {
     margin: 0;
     padding-bottom: 1rem;
+    pointer-events: none;
 }
 
 .yadmm-page .flex-centered {

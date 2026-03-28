@@ -4,12 +4,12 @@ import DivaMod from "../components/DivaMod";
 
 export default function() {
     const [modsLoaded, setModsLoaded] = useState(false);
-    const [modList, setModList] = useState([] as Array<{name: string, author: string, enabled: boolean, id: number, version: string}>);
+    const [modList, setModList] = useState([] as Array<{name: string, author: string, enabled: boolean, id: number, version: string, path: string, imageUrl?: string}>);
 
     useEffect(() => {
         window.electronAPI.getInstalledMods().then((result: {
                 success: boolean;
-                mods: Array<{name: string, author: string, enabled: boolean, id: number, version: string}>;
+                mods: Array<{name: string, author: string, enabled: boolean, id: number, version: string, path: string, imageUrl?: string}>;
                 error?: string;
             }) => {
             if (!result.success) alert(result.error);
@@ -32,6 +32,8 @@ export default function() {
                                 enabled={item.enabled}
                                 author={item.author}
                                 key={item.id}
+                                path={item.path}
+                                imageUrl={item.imageUrl || undefined}
                             />
                         ))}
                     </div>
