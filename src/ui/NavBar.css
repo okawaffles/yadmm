@@ -1,0 +1,17 @@
+.yadmm-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 .25rem 0 1rem;
+    background-color: var(--navbar-bg);
+}
+
+.yadmm-topbar .left {
+    display: flex;
+    justify-content: left;
+}
+
+.yadmm-topbar .left h1 {
+    margin: 0;
+    padding: 0;
+}

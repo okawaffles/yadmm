@@ -1,0 +1,57 @@
+.yadmm-mod {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: var(--mod-background);
+    border-radius: 1rem;
+}
+
+.yadmm-mod .left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: .5rem 1rem;
+}
+.yadmm-mod .left p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.yadmm-mod .left p:nth-child(2) {
+    font-size: .75rem;
+    color: var(--text-darker);
+}
+
+/* right side */
+
+.yadmm-mod .right {
+    display: flex;
+    padding: .5rem;
+}
+.yadmm-mod .right button {
+    margin: .5rem .25rem .5rem 1rem;
+    padding: .25rem 1rem;
+    font-family: monospace;
+    border-radius: .5rem;
+    transition: .2s all;
+}
+.yadmm-mod .right button.enabled {
+    background-color: var(--button-enabled-bg);
+    color: var(--button-enabled-accent);
+    border: 2px solid var(--button-enabled-accent);
+}
+.yadmm-mod .right button.enabled:hover {
+    background-color: var(--button-enabled-bg-hover);
+    color: var(--button-enabled-accent);
+    border: 2px solid var(--button-enabled-accent);
+}
+.yadmm-mod .right button.disabled {
+    background-color: var(--button-disabled-bg);
+    color: var(--button-disabled-accent);
+    border: 2px solid var(--button-disabled-accent);
+}
+.yadmm-mod .right button.disabled:hover {
+    background-color: var(--button-disabled-bg-hover);
+    color: var(--button-disabled-accent);
+    border: 2px solid var(--button-disabled-accent);
+}

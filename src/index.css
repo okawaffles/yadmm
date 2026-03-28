@@ -1,0 +1,31 @@
+* {
+    --background: #11001a;
+    --navbar-bg: #1f052d;
+    --navbar-bg-hover: #3f1752;
+    --navbar-active: #6f1da4;
+    --navbar-active-bg: #360e4b;
+    --text: white;
+    --text-darker: #7d5293;
+    --text-accent: #333;
+    --mod-background: #261736;
+    --button-enabled-bg: darkgreen;
+    --button-enabled-accent: #0ab20a;
+    --button-enabled-bg-hover: #003d00;
+    --button-disabled-bg: #560000;
+    --button-disabled-accent: #da1717;
+    --button-disabled-bg-hover: #330000;
+}
+
+body {
+    font-family: monospace;
+    color: var(--text);
+    background-color: var(--background);
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.vertical-divider {
+    border-color: var(--text-accent);
+    margin: 4px .75rem;
+}
