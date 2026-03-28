@@ -4,6 +4,7 @@
     justify-content: space-between;
     background-color: var(--mod-background);
     border-radius: 1rem;
+    margin: 4px 0;
 }
 
 .yadmm-mod .left {

@@ -7,15 +7,21 @@ export default function() {
     const [modList, setModList] = useState([] as Array<{name: string, author: string, enabled: boolean, id: number, version: string}>);
 
     useEffect(() => {
-        setModList([
-            {name: 'Mod', author: 'Author', id: 0, enabled: true, version: '1.0.0'}
-        ]);
+        window.electronAPI.getInstalledMods().then((result: {
+                success: boolean;
+                mods: Array<{name: string, author: string, enabled: boolean, id: number, version: string}>;
+                error?: string;
+            }) => {
+            if (!result.success) alert(result.error);
+
+            setModList(result.mods);
+        })
         setModsLoaded(true);
     }, [])
 
     return(
         <>
-            <div className={"yadmm-page"}>
+            <div className={"yadmm-page yadmm-manage"}>
                 <h1 className={"title"}>Manage Installed Mods</h1>
                 { modsLoaded &&
                     <div className={"yadmm-mod-list"}>
@@ -25,6 +31,7 @@ export default function() {
                                 name={item.name}
                                 enabled={item.enabled}
                                 author={item.author}
+                                key={item.id}
                             />
                         ))}
                     </div>

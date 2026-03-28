@@ -15,6 +15,14 @@
 }
 
 /* mod listing */
+.yadmm-page.yadmm-manage {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 .yadmm-mod-list {
+    flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 4rem;
 }

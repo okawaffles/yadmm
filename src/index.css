@@ -14,6 +14,8 @@
     --button-disabled-bg: #560000;
     --button-disabled-accent: #da1717;
     --button-disabled-bg-hover: #330000;
+
+    scrollbar-color: var(--text-darker) var(--background);
 }
 
 body {
