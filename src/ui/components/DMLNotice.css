@@ -1,0 +1,13 @@
+.yadmm-dmm-notice {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    align-self: center;
+}
+.yadmm-dmm-notice.not-found {
+    color: red;
+    font-weight: bolder;
+}
+.yadmm-dmm-notice.out-of-date {
+    color: orange;
+}

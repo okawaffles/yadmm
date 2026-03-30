@@ -9,6 +9,7 @@ export default function() {
     const [managePageShown, setManagePageShown] = useState(false);
     const [settingsPageShown, setSettingsPageShown] = useState(false);
     const [selectedPage, setSelectedPage] = useState('none');
+    const [dmlStatus, setDmlStatus] = useState('ok' as 'ok' | 'not-found' | 'out-of-date');
 
     const handlePageChange = function(page: 'manage' | 'download' | 'settings') {
         switch (page) {
@@ -39,10 +40,12 @@ export default function() {
 
     return(
         <>
-            <NavBar selectedPage={selectedPage} callback={handlePageChange} />
+            <NavBar dmlStatus={dmlStatus} selectedPage={selectedPage} callback={handlePageChange} />
 
             { managePageShown &&
-                <ManagePage />
+                <ManagePage callbackDmlStatus={(found: boolean) => {
+                    setDmlStatus(found ? 'ok' : 'not-found');
+                }} />
             }
 
             { settingsPageShown &&

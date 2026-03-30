@@ -33,6 +33,8 @@ export default function() {
                                 window.electronAPI.cfg_setGamePath(pathValue)
                                 const valid = window.electronAPI.cfg_checkGamePath();
                                 if (!valid) return alert('DivaMegaMix.exe was not found in this folder, please check your input!');
+                                alert('Found DivaMegaMix.exe, your path is correct!');
+                                setCurrentPath(pathValue);
                             }}
                         >Update Game Path</button>
                     </div>

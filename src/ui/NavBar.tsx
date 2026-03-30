@@ -3,8 +3,9 @@ import React from "react";
 import './NavBar.css';
 import NavTab from "./NavTab";
 import LaunchGame from "./components/LaunchGame";
+import DMMNotice from "./components/DMLNotice";
 
-export default function({callback, selectedPage}: {callback: CallableFunction, selectedPage: string}) {
+export default function({callback, selectedPage, dmlStatus}: {callback: CallableFunction, selectedPage: string, dmlStatus: 'ok' | 'not-found' | 'out-of-date'}) {
     return(
         <>
             <div className={"yadmm-topbar"}>
@@ -16,6 +17,9 @@ export default function({callback, selectedPage}: {callback: CallableFunction, s
                 </div>
 
                 <div className={"right"}>
+                    { dmlStatus != 'ok' &&
+                        <DMMNotice notice={"not-found"} />
+                    }
                     <LaunchGame />
                     <NavTab onClick={() => callback('settings')} name={"Settings"} active={selectedPage == 'settings'} />
                 </div>

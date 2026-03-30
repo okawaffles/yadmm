@@ -7,6 +7,7 @@ import IpcRendererEvent = Electron.IpcRendererEvent;
 contextBridge.exposeInMainWorld('electronAPI', {
     getInstalledMods: () => ipcRenderer.invoke('fs:get-mod-list'),
     toggleModEnabled: (mod_path: string, enabled: boolean) => ipcRenderer.invoke('fs:toggle-mod', mod_path, enabled),
+    uninstallMod: (mod_path: string) => ipcRenderer.invoke('fs:uninstall-mod', mod_path),
 
     cfg_checkGamePath: () => ipcRenderer.invoke('cfg:check-game-path'),
     cfg_getGamePath: () => ipcRenderer.invoke('cfg:get-path'),

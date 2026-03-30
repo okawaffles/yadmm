@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import './DivaMod.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCircleMinus} from "@fortawesome/free-solid-svg-icons";
 
 
-export default function({name, author, enabled, version, imageUrl, path}: {name: string, author: string, enabled: boolean, version: string, path: string, imageUrl?: string}) {
+export default function({name, author, enabled, version, imageUrl, path, refresh}: {name: string, author: string, enabled: boolean, version: string, path: string, imageUrl?: string, refresh: CallableFunction}) {
     const [modEnabled, setModEnabled] = useState(enabled);
     const [imageShown, setImageShown] = useState(imageUrl != undefined);
     const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -34,7 +36,23 @@ export default function({name, author, enabled, version, imageUrl, path}: {name:
                             setTimeout(() => setButtonDisabled(false), 500);
                         }}
                     >{modEnabled ? "Enabled" : "Disabled"}</button>
-                    <button className={"disabled"}>Uninstall</button>
+                    <button
+                        data-tooltip-id={"uninstall-tooltip"}
+                        data-tooltip-content={"Uninstall"}
+                        data-tooltip-place={"top"}
+                        className={"uninstall-mod"}
+                        onClick={() => {
+                            const confirmation = confirm(`Are you sure you want to uninstall ${name}?`);
+                            if (confirmation) window.electronAPI.uninstallMod(path).then((success) => {
+                                if (!success) alert('Mod could not be uninstalled due to some error.');
+                                else alert('Mod was uninstalled successfully.');
+
+                                return refresh();
+                            });
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faCircleMinus} />
+                    </button>
                 </div>
             </div>
         </>

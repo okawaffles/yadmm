@@ -1,5 +1,5 @@
 import {app, BrowserWindow, ipcMain} from 'electron';
-import {existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync} from "node:fs";
+import {existsSync, mkdirSync, readdirSync, readFileSync, rm, rmdir, rmSync, writeFileSync} from "node:fs";
 import {join} from "node:path";
 import * as toml from "toml";
 import {exec, execSync} from "node:child_process";
@@ -121,7 +121,7 @@ ipcMain.handle('cfg:set-path', (event, p: string) => {
 if (store.game_path == '') {
     switch (process.platform) {
         case 'linux':
-            MEGAMIX_INSTALL_PATH = `/home/${process.env.USER}/.steam/steam/steamapps/common/Hatsune Miku Project DIVA Mega Mix Plus/`;
+            MEGAMIX_INSTALL_PATH = `/home/${process.env.USER}/.steam/steam/steamapps/common/Hatsune Miku Project DIVA Mega Mix Plusa/`;
             break;
 
         // 99% of players are windows users
@@ -149,6 +149,7 @@ ipcMain.handle('fs:get-mod-list', async () => {
 
     if (!existsSync(MEGAMIX_INSTALL_PATH) || !existsSync(join(MEGAMIX_INSTALL_PATH, 'DivaMegaMix.exe'))) return {
         success: false,
+        dml_found: false,
         mods: [],
         error: 'Install path is not valid'
     }
@@ -160,6 +161,7 @@ ipcMain.handle('fs:get-mod-list', async () => {
             writeFileSync(join(app.getPath('userData'), 'yadmm.conf'), JSON.stringify(store), 'utf-8');
             return {
                 success: true,
+                dml_found: false,
                 mods: []
             }
         }
@@ -169,6 +171,8 @@ ipcMain.handle('fs:get-mod-list', async () => {
         const entries = readdirSync(join(MEGAMIX_INSTALL_PATH, 'mods'), {withFileTypes: true});
         let i = 0;
         const mods: Array<{name: string, author: string, enabled: boolean, id: number, version: string, imageUrl?: string, path: string}> = [];
+
+        const dml_found = existsSync(join(MEGAMIX_INSTALL_PATH, 'dinput8.dll'));
 
         for (const entry of entries) {
             if (entry.isFile()) continue;
@@ -197,11 +201,13 @@ ipcMain.handle('fs:get-mod-list', async () => {
 
         return {
             success: true,
+            dml_found,
             mods: mods,
         }
     } catch (error) {
         return {
             success: false,
+            dml_found: false,
             mods: [],
             error: error instanceof Error ? error.message : 'Failed to read mods, unknown reason.'
         }
@@ -217,6 +223,21 @@ ipcMain.handle('fs:toggle-mod', async (_event, mod_path: string, enabled: boolea
     lines[line_index] = `enabled = ${enabled}`;
 
     writeFileSync(join(mod_path, 'config.toml'), lines.join('\n'), 'utf-8');
+});
+
+ipcMain.handle('fs:uninstall-mod', async (_event, mod_path: string) => {
+    console.log(`uninstalling mod: ${mod_path}`)
+    if (!existsSync(mod_path)) return false;
+    if (!mod_path.includes(MEGAMIX_INSTALL_PATH)) return false;
+    if (!existsSync(join(mod_path, 'config.toml'))) return false;
+    try {
+        rmSync(mod_path, {recursive: true, maxRetries: 5});
+        console.log(`deleted directory: ${mod_path}`);
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
 });
 
 ipcMain.handle('other:debugstr', () => {
