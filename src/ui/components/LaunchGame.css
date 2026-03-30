@@ -18,4 +18,5 @@
     background-color: var(--navbar-bg) !important;
     color: var(--text-darker) !important;
     border: 2px solid var(--text-darker) !important;
+    cursor: not-allowed;
 }

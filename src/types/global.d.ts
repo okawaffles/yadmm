@@ -20,6 +20,9 @@ declare global {
 
             // other
             launchGame: () => Promise<void>;
+            onGameStatusUpdate: (callback: (data: {status: boolean}) => void) => CallableFunction<void>;
+            openKoFi: () => void;
+            getDebugString: () => string;
         };
     }
 }

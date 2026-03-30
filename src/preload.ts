@@ -2,6 +2,7 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import {contextBridge, ipcRenderer} from 'electron';
+import IpcRendererEvent = Electron.IpcRendererEvent;
 
 contextBridge.exposeInMainWorld('electronAPI', {
     getInstalledMods: () => ipcRenderer.invoke('fs:get-mod-list'),
@@ -14,4 +15,18 @@ contextBridge.exposeInMainWorld('electronAPI', {
     cfg_setLang: (lang: 'en' | 'es' | 'ja') => ipcRenderer.invoke('cfg:set-lang', lang),
 
     launchGame: () => ipcRenderer.invoke('sys:launch-game'),
+    openKoFi: () => ipcRenderer.invoke('other:kofi'),
+    getDebugString: () => ipcRenderer.invoke('other:debugstr'),
+
+    onGameStatusUpdate: (callback: (data: {status: boolean}) => void) => {
+        const listener = (_event: IpcRendererEvent, data: {status: boolean}) => {
+            callback(data);
+        }
+
+        ipcRenderer.on('game-status', listener);
+
+        return () => {
+            ipcRenderer.removeListener('game-status', listener);
+        }
+    }
 });

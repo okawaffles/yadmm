@@ -12,7 +12,9 @@ export default function() {
                 mods: Array<{name: string, author: string, enabled: boolean, id: number, version: string, path: string, imageUrl?: string}>;
                 error?: string;
             }) => {
-            if (!result.success) alert(result.error);
+            if (!result.success) {
+                return alert(result.error);
+            }
 
             setModList(result.mods);
         })

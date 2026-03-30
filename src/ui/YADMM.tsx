@@ -34,6 +34,7 @@ export default function() {
     useEffect(() => {
         const valid_path = window.electronAPI.cfg_checkGamePath();
         if (valid_path) handlePageChange('manage')
+        else handlePageChange('settings')
     }, [])
 
     return(

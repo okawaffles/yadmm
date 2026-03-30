@@ -27,3 +27,36 @@
     overflow-x: hidden;
     margin-bottom: 4rem;
 }
+
+/* settings page */
+footer {
+    position: absolute;
+    bottom: 0;
+}
+footer p a {
+    color: var(--navbar-active);
+    text-decoration: underline;
+    cursor: pointer;
+}
+.path-setup h2 {
+    font-weight: bold;
+    margin: 0;
+}
+.path-setup p {
+    font-weight: bold;
+    margin: 2px;
+}
+.path-setup .options input, .path-setup .options button {
+    text-align: center;
+    font-family: monospace;
+    color: var(--text);
+    background-color: var(--navbar-bg);
+    padding: .5rem 1rem;
+    border: 2px solid var(--navbar-active);
+    border-radius: .5rem;
+    margin: .5rem 1rem 0 0;
+}
+
+.path-setup .options button:hover {
+
+}

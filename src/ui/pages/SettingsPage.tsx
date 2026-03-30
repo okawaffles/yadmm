@@ -1,8 +1,15 @@
-import React, {useState} from "react";
-
+import React, {useEffect, useState} from "react";
+import './GenericPage.css';
 
 export default function() {
     const [pathValue, setPathValue] = useState('');
+    const [currentPath, setCurrentPath] = useState('Not Set');
+    const [debugString, setDebugString] = useState('yadmm debug string')
+
+    useEffect(() => {
+        setCurrentPath(window.electronAPI.cfg_getGamePath());
+        setDebugString(window.electronAPI.getDebugString());
+    }, []);
 
     return(
         <>
@@ -13,6 +20,7 @@ export default function() {
                     <h2>Game Path</h2>
                     <p>Set the path to your Project Diva folder.</p>
                     <p>This is required to use YADMM.</p>
+                    <p className={"current-path"}>Currently, your path is set to: [ {currentPath} ]</p>
                     <div className={"options"}>
                         <input
                             value={pathValue}
@@ -29,6 +37,12 @@ export default function() {
                         >Update Game Path</button>
                     </div>
                 </div>
+
+                <footer>
+                    <p>{debugString}</p>
+                    <p>made with 💖 by okawaffles | yadmm is developed with no profit incentive,
+                        but if you are feeling generous, you can still choose to support me on <a onClick={() => window.electronAPI.openKoFi()}>ko-fi</a></p>
+                </footer>
             </div>
         </>
     )
