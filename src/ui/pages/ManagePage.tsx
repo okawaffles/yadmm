@@ -23,11 +23,11 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
             }
 
             setModList(result.mods);
-        })
 
-        if (modList.length == 0) {
-            setLoadingText(`Looks like you have no mods installed! yadmm can't help with that right now. I promise it'll be able to soon!`);
-        } else setModsLoaded(true);
+            if (result.mods.length == 0) {
+                setLoadingText(`Looks like you have no mods installed! yadmm can't help with that right now. I promise it'll be able to soon!`);
+            } else setModsLoaded(true);
+        })
     }
 
     useEffect(() => {

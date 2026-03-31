@@ -18,8 +18,8 @@ const config: ForgeConfig = {
   rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),
-    new MakerZIP({}, ['darwin']),
-    new MakerRpm({}),
+    // new MakerZIP({}, ['darwin']),
+    // new MakerRpm({}),
     new MakerDeb({}),
   ],
   plugins: [

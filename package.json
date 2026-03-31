@@ -1,8 +1,8 @@
 {
   "name": "yadmm",
   "productName": "yadmm",
-  "version": "0.1.0-beta",
-  "description": "My Electron application description",
+  "version": "0.1.1-beta",
+  "description": "A cross-platform mod manager for Project Diva Mega Mix+.",
   "main": ".webpack/main",
   "private": true,
   "scripts": {

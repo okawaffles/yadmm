@@ -182,6 +182,8 @@ ipcMain.handle('fs:get-mod-list', async () => {
                 const mod_json_path = join(MEGAMIX_INSTALL_PATH, 'mods', entry.name, 'mod.json');
                 const fallback_mod_json = JSON.parse(existsSync(mod_json_path) ? readFileSync(mod_json_path, 'utf-8') : '{}');
 
+                // console.log(mod_meta.name);
+
                 mods.push({
                     enabled: mod_meta.enabled,
                     name: mod_meta.name || fallback_mod_json.name || (entry.name.length > 40 ? entry.name.substring(0, 40) + '...' : entry.name),
