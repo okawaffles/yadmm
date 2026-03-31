@@ -3,6 +3,7 @@ import './GenericPage.css';
 import DivaMod from "../components/DivaMod";
 import {Tooltip} from "react-tooltip";
 import {Mod} from "../../types/ui";
+import {useTranslation} from "react-i18next";
 
 export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunction}) {
     const [modsLoaded, setModsLoaded] = useState(false);
@@ -10,8 +11,10 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
     const [loadingText, setLoadingText] = useState('Loading mods, please wait...');
     const [showOnlyEnabled, setShowOnlyEnabled] = useState(false);
 
+    const {t} = useTranslation();
+
     function loadModList() {
-        setLoadingText('Loading mods, please wait...');
+        setLoadingText(t('ui.manage.loading'));
         window.electronAPI.getInstalledMods().then((result: {
                 success: boolean;
                 dml_found: boolean;
@@ -21,13 +24,13 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
             callbackDmlStatus(result.dml_found);
             if (!result.success) {
                 setModsLoaded(false);
-                return setLoadingText(`Failed to load mods (${result.error}). Please set your install path in settings!`);
+                return setLoadingText(t('ui.manage.failed'));
             }
 
             setModList(result.mods);
 
             if (result.mods.length == 0) {
-                setLoadingText(`Looks like you have no mods installed! yadmm can't help with that right now. I promise it'll be able to soon!`);
+                setLoadingText(t('ui.manage.no_mods'));
             } else setModsLoaded(true);
         })
     }
@@ -40,15 +43,15 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
         <>
             <div className={"yadmm-page yadmm-manage"}>
                 <div className={"header"}>
-                    <h1 className={"title"}>Manage Installed Mods</h1>
+                    <h1 className={"title"}>{t('ui.manage.title')}</h1>
                     <div className={"toggles"}>
                         <button
                             className={"yadmm-toggle-button " + (showOnlyEnabled ? 'enabled' : '')}
                             onClick={() => {
                                 setShowOnlyEnabled(!showOnlyEnabled);
                             }}
-                        >Show Only Enabled</button>
-                        <button className={"yadmm-toggle-button"}>Edit Priority Mode</button>
+                        >{t('ui.manage.toggles.enabled')}</button>
+                        <button className={"yadmm-toggle-button"}>{t('ui.manage.toggles.priority')}</button>
                     </div>
                 </div>
                 { modsLoaded &&

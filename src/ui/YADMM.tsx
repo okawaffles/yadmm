@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import NavBar from "./NavBar";
 import ManagePage from "./pages/ManagePage";
 import SettingsPage from "./pages/SettingsPage";
-
+import '../core/i18n';
 
 export default function() {
     // probably replace this in the future with a proper navigation library
