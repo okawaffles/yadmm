@@ -14,7 +14,9 @@ export default function() {
     return(
         <>
             <div className={"yadmm-page"}>
-                <h1 className={"title"}>Settings</h1>
+                <div className={"header"}>
+                    <h1 className={"title"}>Settings</h1>
+                </div>
 
                 <div className={"path-setup"}>
                     <h2>Game Path</h2>

@@ -2,10 +2,36 @@
     padding: .5rem 1rem;
 }
 
+.yadmm-page .header {
+    display: flex;
+    margin: .5rem 0;
+}
+
 .yadmm-page .title {
-    margin: 0;
-    padding-bottom: 1rem;
+    margin: 0 1rem 0 0;
     pointer-events: none;
+}
+
+.yadmm-page .header .toggles {
+    display: flex;
+}
+
+.yadmm-page .header .yadmm-toggle-button {
+    margin: .1rem .25rem;
+    background-color: var(--navbar-bg);
+    color: var(--text-darker);
+    border: 2px solid var(--text-darker);
+    border-radius: .5rem;
+    font-family: monospace;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: .25s all;
+}
+
+.yadmm-page .header .yadmm-toggle-button.enabled {
+    background-color: var(--button-enabled-bg);
+    color: var(--button-enabled-accent);
+    border: 2px solid var(--button-enabled-accent);
 }
 
 .yadmm-page .flex-centered {

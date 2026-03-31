@@ -2,18 +2,20 @@ import React, {useEffect, useState} from "react";
 import './GenericPage.css';
 import DivaMod from "../components/DivaMod";
 import {Tooltip} from "react-tooltip";
+import {Mod} from "../../types/ui";
 
 export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunction}) {
     const [modsLoaded, setModsLoaded] = useState(false);
-    const [modList, setModList] = useState([] as Array<{name: string, author: string, enabled: boolean, id: number, version: string, path: string, imageUrl?: string}>);
+    const [modList, setModList] = useState([] as Array<Mod>);
     const [loadingText, setLoadingText] = useState('Loading mods, please wait...');
+    const [showOnlyEnabled, setShowOnlyEnabled] = useState(false);
 
     function loadModList() {
         setLoadingText('Loading mods, please wait...');
         window.electronAPI.getInstalledMods().then((result: {
                 success: boolean;
                 dml_found: boolean;
-                mods: Array<{name: string, author: string, enabled: boolean, id: number, version: string, path: string, imageUrl?: string}>;
+                mods: Array<Mod>;
                 error?: string;
             }) => {
             callbackDmlStatus(result.dml_found);
@@ -37,10 +39,21 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
     return(
         <>
             <div className={"yadmm-page yadmm-manage"}>
-                <h1 className={"title"}>Manage Installed Mods</h1>
+                <div className={"header"}>
+                    <h1 className={"title"}>Manage Installed Mods</h1>
+                    <div className={"toggles"}>
+                        <button
+                            className={"yadmm-toggle-button " + (showOnlyEnabled ? 'enabled' : '')}
+                            onClick={() => {
+                                setShowOnlyEnabled(!showOnlyEnabled);
+                            }}
+                        >Show Only Enabled</button>
+                        <button className={"yadmm-toggle-button"}>Edit Priority Mode</button>
+                    </div>
+                </div>
                 { modsLoaded &&
                     <div className={"yadmm-mod-list"}>
-                        {modList.map((item) => (
+                        {modList.filter(showOnlyEnabled ? (mod) => mod.enabled : () => true).map((item) => (
                             <DivaMod
                                 version={item.version}
                                 name={item.name}
