@@ -34,7 +34,8 @@ i18next
                             title: 'Manage Installed Mods',
                             toggles: {
                                 enabled: 'Show Only Enabled',
-                                priority: 'Edit Priority Mode'
+                                priority: 'Edit Priority Mode',
+                                priority_warning: 'Remember to toggle off to save changes!',
                             },
                             mod: {
                                 enabled: 'Enabled',
@@ -44,6 +45,8 @@ i18next
                                 has_dma: 'From DivaModArchive',
                                 has_gb: 'From GameBanana',
                                 update: 'Update Available',
+                                move_up: 'Move Up',
+                                move_down: 'Move Down',
                             },
                             loading: 'Loading mods, please wait...',
                             no_mods: "You don't have any mods installed! yadmm can't help with that yet, but I promise it will be able to soon!",
@@ -77,7 +80,8 @@ i18next
                             title: 'Dirigir Mods Instalado',
                             toggles: {
                                 enabled: 'Mostrar solo Permitido',
-                                priority: 'Modo Cambiar Prioridad'
+                                priority: 'Modo Cambiar Prioridad',
+                                priority_warning: '¡Recordar apagar modo cambiar para guardar cambios!',
                             },
                             mod: {
                                 enabled: 'Permitido',
@@ -87,6 +91,8 @@ i18next
                                 has_dma: 'de DivaModArchive',
                                 has_gb: 'de GameBanana',
                                 update: 'Actualización Disponible',
+                                move_up: 'Mover Arriba',
+                                move_down: 'Mover Abajo',
                             },
                             loading: 'Cargando mods, esperar por favor...',
                             no_mods: "¡No tienes alguna mods instalado! No puedo ayudar con eso ahora mismo.",

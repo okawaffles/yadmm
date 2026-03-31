@@ -15,8 +15,25 @@
     --button-disabled-bg: #560000;
     --button-disabled-accent: #da1717;
     --button-disabled-bg-hover: #330000;
+    --button-alternative-bg: #003c56;
+    --button-alternative-accent: #17adda;
+    --button-alternative-bg-hover: #002d33;
+
 
     scrollbar-color: var(--text-darker) var(--background);
+
+    --rt-color-white: #fff;
+    --rt-color-dark: var(--navbar-active-bg);
+    --rt-opacity: 1;
+    --rt-transition-show-delay: 0.15s;
+    --rt-transition-closing-delay: 0.15s;
+}
+
+.react-tooltip {
+    border-radius: .5rem !important;
+    border: 2px solid var(--navbar-active);
+    font-weight: bold;
+    z-index: 99;
 }
 
 body {

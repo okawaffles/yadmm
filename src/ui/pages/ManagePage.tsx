@@ -10,6 +10,7 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
     const [modList, setModList] = useState([] as Array<Mod>);
     const [loadingText, setLoadingText] = useState('Loading mods, please wait...');
     const [showOnlyEnabled, setShowOnlyEnabled] = useState(false);
+    const [editPriorityMode, setEditPriorityMode] = useState(false);
 
     const {t} = useTranslation();
 
@@ -48,11 +49,22 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                         <button
                             className={"yadmm-toggle-button " + (showOnlyEnabled ? 'enabled' : '')}
                             onClick={() => {
+                                if (editPriorityMode) return;
                                 setShowOnlyEnabled(!showOnlyEnabled);
                             }}
+                            disabled={editPriorityMode}
                         >{t('ui.manage.toggles.enabled')}</button>
-                        <button className={"yadmm-toggle-button"}>{t('ui.manage.toggles.priority')}</button>
+                        <button
+                            className={"yadmm-toggle-button " + (editPriorityMode ? 'enabled' : '')}
+                            onClick={() => {
+                                setShowOnlyEnabled(!editPriorityMode);
+                                setEditPriorityMode(!editPriorityMode);
+                            }}
+                        >{t('ui.manage.toggles.priority')}</button>
                     </div>
+                    { editPriorityMode &&
+                        <p>{t('ui.manage.toggles.priority_warning')}</p>
+                    }
                 </div>
                 { modsLoaded &&
                     <div className={"yadmm-mod-list"}>
@@ -64,6 +76,7 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                                 author={item.author}
                                 key={item.id}
                                 path={item.path}
+                                edit_mode={editPriorityMode}
                                 refresh={() => {
                                     setModsLoaded(false)
                                     // I add an artificial delay here because
@@ -80,6 +93,8 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                             />
                         ))}
                         <Tooltip id={'uninstall-tooltip'}></Tooltip>
+                        <Tooltip id={'move-up-tooltip'}></Tooltip>
+                        <Tooltip id={'move-down-tooltip'}></Tooltip>
                     </div>
                 }
 

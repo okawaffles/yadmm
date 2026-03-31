@@ -4,7 +4,7 @@
 
 .yadmm-page .header {
     display: flex;
-    margin: .5rem 0;
+    margin: .25rem 0 .5rem 0;
 }
 
 .yadmm-page .title {
@@ -14,6 +14,13 @@
 
 .yadmm-page .header .toggles {
     display: flex;
+}
+
+.yadmm-page .header p {
+    margin: 0 0 0 .25rem;
+    padding: 0;
+    align-self: center;
+    font-weight: bolder;
 }
 
 .yadmm-page .header .yadmm-toggle-button {
@@ -26,6 +33,10 @@
     padding: 0 1rem;
     cursor: pointer;
     transition: .25s all;
+}
+
+.yadmm-toggle-button.enabled:disabled {
+    cursor: not-allowed;
 }
 
 .yadmm-page .header .yadmm-toggle-button.enabled {

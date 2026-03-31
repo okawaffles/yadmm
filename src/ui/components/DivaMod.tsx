@@ -1,11 +1,20 @@
 import React, {useState} from "react";
 import './DivaMod.css';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCircleMinus} from "@fortawesome/free-solid-svg-icons";
+import {faArrowDown, faArrowUp, faCircleMinus} from "@fortawesome/free-solid-svg-icons";
 import {useTranslation} from "react-i18next";
 
 
-export default function({name, author, enabled, version, imageUrl, path, refresh}: {name: string, author: string, enabled: boolean, version: string, path: string, imageUrl?: string, refresh: CallableFunction}) {
+export default function({name, author, enabled, version, imageUrl, path, refresh, edit_mode}: {
+    name: string,
+    author: string,
+    enabled: boolean,
+    version: string,
+    path: string,
+    imageUrl?: string,
+    refresh: CallableFunction,
+    edit_mode: boolean,
+}) {
     const [modEnabled, setModEnabled] = useState(enabled);
     const [imageShown, setImageShown] = useState(imageUrl != undefined);
     const [buttonDisabled, setButtonDisabled] = useState(false);
@@ -28,7 +37,7 @@ export default function({name, author, enabled, version, imageUrl, path, refresh
                     </div>
                 </div>
 
-                <div className={"right"}>
+                {!edit_mode && <div className={"right"}>
                     <button
                         disabled={buttonDisabled}
                         className={modEnabled ? "enabled" : "disabled"}
@@ -54,9 +63,29 @@ export default function({name, author, enabled, version, imageUrl, path, refresh
                             });
                         }}
                     >
-                        <FontAwesomeIcon icon={faCircleMinus} />
+                        <FontAwesomeIcon icon={faCircleMinus}/>
                     </button>
-                </div>
+                </div>}
+
+
+                {edit_mode && <div className={"right"}>
+                    <button
+                        data-tooltip-id={"move-up-tooltip"}
+                        data-tooltip-content={t('ui.manage.mod.move_up')}
+                        data-tooltip-place={"left"}
+                        className={"move-mod"}
+                    >
+                        <FontAwesomeIcon icon={faArrowUp}/>
+                    </button>
+                    <button
+                        data-tooltip-id={"move-down-tooltip"}
+                        data-tooltip-content={t('ui.manage.mod.move_down')}
+                        data-tooltip-place={"left"}
+                        className={"move-mod"}
+                    >
+                        <FontAwesomeIcon icon={faArrowDown}/>
+                    </button>
+                </div>}
             </div>
         </>
     )
