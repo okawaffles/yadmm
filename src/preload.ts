@@ -3,9 +3,13 @@
 
 import {contextBridge, ipcRenderer} from 'electron';
 import IpcRendererEvent = Electron.IpcRendererEvent;
+import {ModWithPriority} from "./types/ui";
+import i18n from "./core/i18n";
 
 contextBridge.exposeInMainWorld('electronAPI', {
     getInstalledMods: () => ipcRenderer.invoke('fs:get-mod-list'),
+    getModsPriority: () => ipcRenderer.invoke('fs:get-mod-list-priorities'),
+    saveModsPriority: (priorities: Array<ModWithPriority>) => ipcRenderer.invoke('fs:save-mod-priorities', priorities),
     toggleModEnabled: (mod_path: string, enabled: boolean) => ipcRenderer.invoke('fs:toggle-mod', mod_path, enabled),
     uninstallMod: (mod_path: string) => ipcRenderer.invoke('fs:uninstall-mod', mod_path),
 
@@ -13,7 +17,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     cfg_getGamePath: () => ipcRenderer.invoke('cfg:get-path'),
     cfg_setGamePath: (p: string) => ipcRenderer.invoke('cfg:set-path', p),
     cfg_getLang: () => ipcRenderer.invoke('cfg:get-lang'),
-    cfg_setLang: (lang: 'en' | 'es' | 'ja') => ipcRenderer.invoke('cfg:set-lang', lang),
+    cfg_setLang: (lang: 'en' | 'es' | 'ja') => ipcRenderer.invoke('cfg:store-lang', lang),
 
     launchGame: () => ipcRenderer.invoke('sys:launch-game'),
     openKoFi: () => ipcRenderer.invoke('other:kofi'),

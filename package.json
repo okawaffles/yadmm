@@ -1,7 +1,7 @@
 {
   "name": "yadmm",
   "productName": "yadmm",
-  "version": "0.1.1-beta",
+  "version": "0.2.0-beta",
   "description": "A cross-platform mod manager for Project Diva Mega Mix+.",
   "main": ".webpack/main",
   "private": true,
@@ -52,9 +52,12 @@
     "@types/react-dom": "^19.2.3",
     "electron-squirrel-startup": "^1.0.1",
     "electron-store": "^11.0.2",
+    "i18next": "^23.2.3",
+    "i18next-electron-language-detector": "^0.0.10",
     "ps-list": "^9.0.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-i18next": "^15.4.1",
     "react-tooltip": "^5.30.0",
     "toml": "^3.0.0"
   }

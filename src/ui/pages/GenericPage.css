@@ -2,10 +2,47 @@
     padding: .5rem 1rem;
 }
 
+.yadmm-page .header {
+    display: flex;
+    margin: .25rem 0 .5rem 0;
+}
+
 .yadmm-page .title {
-    margin: 0;
-    padding-bottom: 1rem;
+    margin: 0 1rem 0 0;
     pointer-events: none;
+}
+
+.yadmm-page .header .toggles {
+    display: flex;
+}
+
+.yadmm-page .header p {
+    margin: 0 0 0 .25rem;
+    padding: 0;
+    align-self: center;
+    font-weight: bolder;
+}
+
+.yadmm-page .header .yadmm-toggle-button {
+    margin: .1rem .25rem;
+    background-color: var(--navbar-bg);
+    color: var(--text-darker);
+    border: 2px solid var(--text-darker);
+    border-radius: .5rem;
+    font-family: monospace;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: .25s all;
+}
+
+.yadmm-toggle-button.enabled:disabled {
+    cursor: not-allowed;
+}
+
+.yadmm-page .header .yadmm-toggle-button.enabled {
+    background-color: var(--button-enabled-bg);
+    color: var(--button-enabled-accent);
+    border: 2px solid var(--button-enabled-accent);
 }
 
 .yadmm-page .flex-centered {
@@ -55,13 +92,26 @@ footer p a {
     text-align: center;
     font-family: monospace;
     color: var(--text);
-    background-color: var(--navbar-bg);
     padding: .5rem 1rem;
+    background-color: var(--navbar-bg);
     border: 2px solid var(--navbar-active);
     border-radius: .5rem;
     margin: .5rem 1rem 0 0;
+    transition: .25s all;
+    cursor: pointer;
 }
 
 .path-setup .options button:hover {
+    background-color: var(--navbar-bg-hover);
+}
 
+.language select {
+    text-align: center;
+    font-family: monospace;
+    color: var(--text);
+    padding: .5rem 1rem;
+    background-color: var(--navbar-bg);
+    border: 2px solid var(--navbar-active);
+    border-radius: .5rem;
+    margin: 0;
 }
