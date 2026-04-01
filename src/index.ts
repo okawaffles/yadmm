@@ -298,7 +298,7 @@ ipcMain.handle('fs:get-mod-list-priorities', async () => {
                     version: mod_meta.version || 'null',
                     id: i,
                     path: join(MEGAMIX_INSTALL_PATH, 'mods', entry.name),
-                    priority: dml_config.priority.indexOf(mod_meta.name) || -1,
+                    priority: dml_config.priority.indexOf(entry.name) || -1,
                     // not used yet, maybe later?
                     // imageUrl: fallback_mod_json.preview || undefined
                 });

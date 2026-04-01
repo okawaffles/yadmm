@@ -12,11 +12,11 @@ export default function() {
     useEffect(() => {
         window.electronAPI.onGameStatusUpdate((data) => {
             if (data.status) {
-                setLabel(t('ui.navbar.launch.ready'));
+                setLabel(t('ui.navbar.launch.running'));
                 setDisabled(true);
                 was_launched = true;
             } if (!data.status && was_launched) {
-                setLabel(t('ui.navbar.launch.running'));
+                setLabel(t('ui.navbar.launch.ready'));
                 setDisabled(false);
             }
         });

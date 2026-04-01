@@ -5,7 +5,7 @@ import {Tooltip} from "react-tooltip";
 import {Mod, ModWithPriority} from "../../types/ui";
 import {useTranslation} from "react-i18next";
 
-export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunction}) {
+export default function ({callbackDmlStatus}: { callbackDmlStatus: CallableFunction }) {
     const [modsLoaded, setModsLoaded] = useState(false);
     const [modList, setModList] = useState([] as Array<Mod>);
     const [modListByPriority, setModListByPriority] = useState([] as Array<ModWithPriority>);
@@ -18,11 +18,11 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
     function loadModList() {
         setLoadingText(t('ui.manage.loading'));
         window.electronAPI.getInstalledMods().then((result: {
-                success: boolean;
-                dml_found: boolean;
-                mods: Array<Mod>;
-                error?: string;
-            }) => {
+            success: boolean;
+            dml_found: boolean;
+            mods: Array<Mod>;
+            error?: string;
+        }) => {
             callbackDmlStatus(result.dml_found);
             if (!result.success) {
                 setModsLoaded(false);
@@ -51,6 +51,7 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
             }
         });
     }
+
     function saveModPriorities() {
         if (modListByPriority.length == 0) return loadModList();
         setLoadingText(t('ui.manage.saving_priority'));
@@ -60,35 +61,57 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
         });
     }
 
-    function moveModPriorityUp(priority_id: number) {
-        const modified_mod_list: Array<ModWithPriority> = [];
-        // arrays are so weird man
-        modListByPriority.forEach(mod => {
-            modified_mod_list.push(mod);
+    function moveModPriorityUp(priorityId: number) {
+        setModListByPriority((prev) => {
+            const currentIndex = prev.findIndex((mod) => mod.priority === priorityId);
+            const prevIndex = prev.findIndex((mod) => mod.priority === priorityId - 1);
+
+            if (currentIndex === -1 || prevIndex === -1) {
+                return prev;
+            }
+
+            return prev.map((mod) => {
+                if (mod.priority === priorityId) {
+                    return {...mod, priority: mod.priority - 1};
+                }
+
+                if (mod.priority === priorityId - 1) {
+                    return {...mod, priority: mod.priority + 1};
+                }
+
+                return mod;
+            });
         });
-        modified_mod_list.find(m => m.priority == priority_id).priority--;
-        modified_mod_list.find(m => m.priority == priority_id - 1).priority++;
-        console.log(modified_mod_list);
-        setModListByPriority(modified_mod_list);
     }
-    function moveModPriorityDown(priority_id: number) {
-        const modified_mod_list: Array<ModWithPriority> = [];
-        // arrays are so weird man
-        modListByPriority.forEach(mod => {
-            modified_mod_list.push(mod);
+
+    function moveModPriorityDown(priorityId: number) {
+        setModListByPriority((prev) => {
+            const currentIndex = prev.findIndex((mod) => mod.priority === priorityId);
+            const nextIndex = prev.findIndex((mod) => mod.priority === priorityId + 1);
+
+            if (currentIndex === -1 || nextIndex === -1) {
+                return prev;
+            }
+
+            return prev.map((mod) => {
+                if (mod.priority === priorityId) {
+                    return {...mod, priority: mod.priority + 1};
+                }
+
+                if (mod.priority === priorityId + 1) {
+                    return {...mod, priority: mod.priority - 1};
+                }
+
+                return mod;
+            });
         });
-        console.log(modified_mod_list.find(m => m.priority == priority_id));
-        modified_mod_list.find(m => m.priority == priority_id + 1).priority--;
-        modified_mod_list.find(m => m.priority == priority_id).priority++;
-        console.log(modified_mod_list.find(m => m.priority == priority_id));
-        setModListByPriority(modified_mod_list);
     }
 
     useEffect(() => {
         loadModList();
     }, [])
 
-    return(
+    return (
         <>
             <div className={"yadmm-page yadmm-manage"}>
                 <div className={"header"}>
@@ -115,46 +138,46 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                             }}
                         >{t('ui.manage.toggles.priority')}</button>
                     </div>
-                    { editPriorityMode &&
+                    {editPriorityMode &&
                         <p>{t('ui.manage.toggles.priority_warning')}</p>
                     }
                 </div>
-                { modsLoaded &&
+                {modsLoaded &&
                     <div className={"yadmm-mod-list"}>
                         {(!editPriorityMode ? modList : modListByPriority)
                             .filter(showOnlyEnabled ? (mod) => mod.enabled : () => true)
                             .sort(editPriorityMode ? (a: ModWithPriority, b: ModWithPriority) => a.priority - b.priority : () => 0)
                             .map((item) => (
-                            <DivaMod
-                                version={item.version}
-                                name={item.name}
-                                enabled={item.enabled}
-                                author={item.author}
-                                key={item.id}
-                                path={item.path}
-                                edit_mode={editPriorityMode}
-                                priority={editPriorityMode ? (item as ModWithPriority).priority : 0}
-                                refresh={() => {
-                                    setModsLoaded(false)
-                                    // I add an artificial delay here because
-                                    // it generally just "feels" better as a user.
-                                    // It gives an impression of, "oh, something just happened,
-                                    // now I need to refresh because it DID happen".
-                                    // I don't run this on launch though, because it feels better
-                                    // when the app opens snappily
-                                    // That's just my thought process. Open for debate.
-                                    setTimeout(loadModList, 500)
-                                    // loadModList()
-                                }}
-                                imageUrl={item.imageUrl || undefined}
-                                is_last={ modListByPriority
-                                    .sort((a, b) => a.priority - b.priority)
-                                    .indexOf(item as ModWithPriority) == modListByPriority.length - 1
-                                }
-                                onClickUp={() => moveModPriorityUp((item as ModWithPriority).priority)}
-                                onClickDown={() => moveModPriorityDown((item as ModWithPriority).priority)}
-                            />
-                        ))}
+                                <DivaMod
+                                    version={item.version}
+                                    name={item.name}
+                                    enabled={item.enabled}
+                                    author={item.author}
+                                    key={item.id}
+                                    path={item.path}
+                                    edit_mode={editPriorityMode}
+                                    priority={editPriorityMode ? (item as ModWithPriority).priority : 0}
+                                    refresh={() => {
+                                        setModsLoaded(false)
+                                        // I add an artificial delay here because
+                                        // it generally just "feels" better as a user.
+                                        // It gives an impression of, "oh, something just happened,
+                                        // now I need to refresh because it DID happen".
+                                        // I don't run this on launch though, because it feels better
+                                        // when the app opens snappily
+                                        // That's just my thought process. Open for debate.
+                                        setTimeout(loadModList, 500)
+                                        // loadModList()
+                                    }}
+                                    imageUrl={item.imageUrl || undefined}
+                                    is_last={modListByPriority
+                                        .sort((a, b) => a.priority - b.priority)
+                                        .indexOf(item as ModWithPriority) == modListByPriority.length - 1
+                                    }
+                                    onClickUp={() => moveModPriorityUp((item as ModWithPriority).priority)}
+                                    onClickDown={() => moveModPriorityDown((item as ModWithPriority).priority)}
+                                />
+                            ))}
                         <Tooltip id={'uninstall-tooltip'}></Tooltip>
                         <Tooltip id={'move-up-tooltip'}></Tooltip>
                         <Tooltip id={'move-down-tooltip'}></Tooltip>
@@ -162,7 +185,7 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                     </div>
                 }
 
-                { !modsLoaded &&
+                {!modsLoaded &&
                     <div className={"flex-centered"}>
                         <h2>{loadingText}</h2>
                     </div>
