@@ -16,6 +16,7 @@ i18next
                         navbar: {
                             manage: 'Manage',
                             download: 'Download',
+                            download_none: 'Sorry, download mode isn\'t ready yet.',
                             settings: 'Settings',
                             launch: {
                                 ready: 'Launch',
@@ -34,6 +35,7 @@ i18next
                             title: 'Manage Installed Mods',
                             toggles: {
                                 enabled: 'Show Only Enabled',
+                                enable_locked: 'This setting cannot be changed while you are editing priority.',
                                 priority: 'Edit Priority Mode',
                                 priority_warning: 'Remember to toggle off to save changes!',
                             },
@@ -47,8 +49,11 @@ i18next
                                 update: 'Update Available',
                                 move_up: 'Move Up',
                                 move_down: 'Move Down',
+                                no_version: 'No Version Specified',
                             },
                             loading: 'Loading mods, please wait...',
+                            loading_priority: 'Loading priority, please wait...',
+                            saving_priority: 'Saving priorities, please wait...',
                             no_mods: "You don't have any mods installed! yadmm can't help with that yet, but I promise it will be able to soon!",
                             failed: "Failed to load mods, please check your install path in settings!"
                         }
@@ -62,6 +67,7 @@ i18next
                         navbar: {
                             manage: 'Dirigir',
                             download: 'Descargar',
+                            download_none: 'Lo siento, modo descargar no implementado todavía.',
                             settings: 'Configuración',
                             launch: {
                                 ready: 'Iniciar',
@@ -80,6 +86,7 @@ i18next
                             title: 'Dirigir Mods Instalado',
                             toggles: {
                                 enabled: 'Mostrar solo Permitido',
+                                enable_locked: 'Este ajuste no poder cambiar mientras cambio prioridad.',
                                 priority: 'Modo Cambiar Prioridad',
                                 priority_warning: '¡Recordar apagar modo cambiar para guardar cambios!',
                             },
@@ -93,9 +100,12 @@ i18next
                                 update: 'Actualización Disponible',
                                 move_up: 'Mover Arriba',
                                 move_down: 'Mover Abajo',
+                                no_version: 'Versión No Especificado',
                             },
                             loading: 'Cargando mods, esperar por favor...',
-                            no_mods: "¡No tienes alguna mods instalado! No puedo ayudar con eso ahora mismo.",
+                            loading_priority: 'Cargando prioridad, esperar por favor...',
+                            saving_priority: 'Guardo prioridad, esperar por favor...',
+                            no_mods: "¡No tienes alguna mods instalados! No puedo ayudar con eso ahora mismo.",
                             failed: "Cargar mods fallado, ¡revisar el lugar a tu DivaMegaMix.exe en la configuración por favor!"
                         }
                     }

@@ -3,9 +3,12 @@
 
 import {contextBridge, ipcRenderer} from 'electron';
 import IpcRendererEvent = Electron.IpcRendererEvent;
+import {ModWithPriority} from "./types/ui";
 
 contextBridge.exposeInMainWorld('electronAPI', {
     getInstalledMods: () => ipcRenderer.invoke('fs:get-mod-list'),
+    getModsPriority: () => ipcRenderer.invoke('fs:get-mod-list-priorities'),
+    saveModsPriority: (priorities: Array<ModWithPriority>) => ipcRenderer.invoke('fs:save-mod-priorities', priorities),
     toggleModEnabled: (mod_path: string, enabled: boolean) => ipcRenderer.invoke('fs:toggle-mod', mod_path, enabled),
     uninstallMod: (mod_path: string) => ipcRenderer.invoke('fs:uninstall-mod', mod_path),
 

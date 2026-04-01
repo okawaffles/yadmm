@@ -2,12 +2,13 @@ import React, {useEffect, useState} from "react";
 import './GenericPage.css';
 import DivaMod from "../components/DivaMod";
 import {Tooltip} from "react-tooltip";
-import {Mod} from "../../types/ui";
+import {Mod, ModWithPriority} from "../../types/ui";
 import {useTranslation} from "react-i18next";
 
 export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunction}) {
     const [modsLoaded, setModsLoaded] = useState(false);
     const [modList, setModList] = useState([] as Array<Mod>);
+    const [modListByPriority, setModListByPriority] = useState([] as Array<ModWithPriority>);
     const [loadingText, setLoadingText] = useState('Loading mods, please wait...');
     const [showOnlyEnabled, setShowOnlyEnabled] = useState(false);
     const [editPriorityMode, setEditPriorityMode] = useState(false);
@@ -36,6 +37,53 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
         })
     }
 
+    function loadModPriorities() {
+        setLoadingText(t('ui.manage.loading_priority'));
+        setModsLoaded(false);
+        window.electronAPI.getModsPriority().then(result => {
+            if (!result.success) return setLoadingText(result.error)
+            if (result.mods.length == 0) {
+                setLoadingText(t('ui.manage.no_mods'));
+                setModListByPriority([]);
+            } else {
+                setModListByPriority(result.mods);
+                setModsLoaded(true);
+            }
+        });
+    }
+    function saveModPriorities() {
+        if (modListByPriority.length == 0) return loadModList();
+        setLoadingText(t('ui.manage.saving_priority'));
+        setModsLoaded(false);
+        window.electronAPI.saveModsPriority(modListByPriority).then(() => {
+            setModsLoaded(true);
+        });
+    }
+
+    function moveModPriorityUp(priority_id: number) {
+        const modified_mod_list: Array<ModWithPriority> = [];
+        // arrays are so weird man
+        modListByPriority.forEach(mod => {
+            modified_mod_list.push(mod);
+        });
+        modified_mod_list.find(m => m.priority == priority_id).priority--;
+        modified_mod_list.find(m => m.priority == priority_id - 1).priority++;
+        console.log(modified_mod_list);
+        setModListByPriority(modified_mod_list);
+    }
+    function moveModPriorityDown(priority_id: number) {
+        const modified_mod_list: Array<ModWithPriority> = [];
+        // arrays are so weird man
+        modListByPriority.forEach(mod => {
+            modified_mod_list.push(mod);
+        });
+        console.log(modified_mod_list.find(m => m.priority == priority_id));
+        modified_mod_list.find(m => m.priority == priority_id + 1).priority--;
+        modified_mod_list.find(m => m.priority == priority_id).priority++;
+        console.log(modified_mod_list.find(m => m.priority == priority_id));
+        setModListByPriority(modified_mod_list);
+    }
+
     useEffect(() => {
         loadModList();
     }, [])
@@ -52,6 +100,9 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                                 if (editPriorityMode) return;
                                 setShowOnlyEnabled(!showOnlyEnabled);
                             }}
+                            data-tooltip-id={editPriorityMode ? "enable-priority-locked" : undefined}
+                            data-tooltip-content={t('ui.manage.toggles.enable_locked')}
+                            data-tooltip-place={"bottom"}
                             disabled={editPriorityMode}
                         >{t('ui.manage.toggles.enabled')}</button>
                         <button
@@ -59,6 +110,8 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                             onClick={() => {
                                 setShowOnlyEnabled(!editPriorityMode);
                                 setEditPriorityMode(!editPriorityMode);
+                                if (!editPriorityMode) loadModPriorities();
+                                else saveModPriorities();
                             }}
                         >{t('ui.manage.toggles.priority')}</button>
                     </div>
@@ -68,7 +121,10 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                 </div>
                 { modsLoaded &&
                     <div className={"yadmm-mod-list"}>
-                        {modList.filter(showOnlyEnabled ? (mod) => mod.enabled : () => true).map((item) => (
+                        {(!editPriorityMode ? modList : modListByPriority)
+                            .filter(showOnlyEnabled ? (mod) => mod.enabled : () => true)
+                            .sort(editPriorityMode ? (a: ModWithPriority, b: ModWithPriority) => a.priority - b.priority : () => 0)
+                            .map((item) => (
                             <DivaMod
                                 version={item.version}
                                 name={item.name}
@@ -77,6 +133,7 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                                 key={item.id}
                                 path={item.path}
                                 edit_mode={editPriorityMode}
+                                priority={editPriorityMode ? (item as ModWithPriority).priority : 0}
                                 refresh={() => {
                                     setModsLoaded(false)
                                     // I add an artificial delay here because
@@ -90,11 +147,18 @@ export default function({callbackDmlStatus}: {callbackDmlStatus: CallableFunctio
                                     // loadModList()
                                 }}
                                 imageUrl={item.imageUrl || undefined}
+                                is_last={ modListByPriority
+                                    .sort((a, b) => a.priority - b.priority)
+                                    .indexOf(item as ModWithPriority) == modListByPriority.length - 1
+                                }
+                                onClickUp={() => moveModPriorityUp((item as ModWithPriority).priority)}
+                                onClickDown={() => moveModPriorityDown((item as ModWithPriority).priority)}
                             />
                         ))}
                         <Tooltip id={'uninstall-tooltip'}></Tooltip>
                         <Tooltip id={'move-up-tooltip'}></Tooltip>
                         <Tooltip id={'move-down-tooltip'}></Tooltip>
+                        <Tooltip id={'enable-priority-locked'}></Tooltip>
                     </div>
                 }
 

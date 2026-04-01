@@ -1,3 +1,5 @@
+import {Mod, ModWithPriority} from "./ui";
+
 export {};
 
 declare global {
@@ -6,9 +8,16 @@ declare global {
             getInstalledMods: () => Promise<{
                 success: boolean;
                 dml_found: boolean;
-                mods: Array<{name: string, author: string, enabled: boolean, id: number, version: string, imageUrl?: string}>;
+                mods: Array<Mod>;
                 error?: string;
             }>;
+            getModsPriority: () => Promise<{
+                success: boolean;
+                dml_found: boolean,
+                mods: Array<ModWithPriority>;
+                error?: string
+            }>;
+            saveModsPriority: (priorities: Array<ModWithPriority>) => Promise<void>;
 
             toggleModEnabled: (mod_path: string, enabled: boolean) => void;
             uninstallMod: (mod_path: string) => Promise<boolean>;

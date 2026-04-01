@@ -7,3 +7,7 @@ export interface Mod {
     path: string,
     imageUrl?: string
 }
+
+export interface ModWithPriority extends Mod {
+    priority: number
+}

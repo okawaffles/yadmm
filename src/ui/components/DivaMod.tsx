@@ -5,7 +5,7 @@ import {faArrowDown, faArrowUp, faCircleMinus} from "@fortawesome/free-solid-svg
 import {useTranslation} from "react-i18next";
 
 
-export default function({name, author, enabled, version, imageUrl, path, refresh, edit_mode}: {
+export default function({name, author, enabled, version, imageUrl, path, refresh, edit_mode, priority, is_last, onClickUp, onClickDown}: {
     name: string,
     author: string,
     enabled: boolean,
@@ -14,6 +14,10 @@ export default function({name, author, enabled, version, imageUrl, path, refresh
     imageUrl?: string,
     refresh: CallableFunction,
     edit_mode: boolean,
+    priority?: number,
+    is_last: boolean,
+    onClickUp?: CallableFunction,
+    onClickDown?: CallableFunction,
 }) {
     const [modEnabled, setModEnabled] = useState(enabled);
     const [imageShown, setImageShown] = useState(imageUrl != undefined);
@@ -31,9 +35,11 @@ export default function({name, author, enabled, version, imageUrl, path, refresh
                         </div>
                     )}
 
+                    { edit_mode && <p className={"priority"}>{priority + 1}</p> }
+
                     <div className={"left-content"}>
                         <p>{name}</p>
-                        <p>{author} - {version}</p>
+                        <p>{author} - {version != 'null' ? version : t('ui.manage.mod.no_version')}</p>
                     </div>
                 </div>
 
@@ -74,6 +80,8 @@ export default function({name, author, enabled, version, imageUrl, path, refresh
                         data-tooltip-content={t('ui.manage.mod.move_up')}
                         data-tooltip-place={"left"}
                         className={"move-mod"}
+                        disabled={priority == 0}
+                        onClick={() => onClickUp()}
                     >
                         <FontAwesomeIcon icon={faArrowUp}/>
                     </button>
@@ -82,6 +90,8 @@ export default function({name, author, enabled, version, imageUrl, path, refresh
                         data-tooltip-content={t('ui.manage.mod.move_down')}
                         data-tooltip-place={"left"}
                         className={"move-mod"}
+                        disabled={is_last}
+                        onClick={() => onClickDown()}
                     >
                         <FontAwesomeIcon icon={faArrowDown}/>
                     </button>

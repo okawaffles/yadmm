@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import ManagePage from "./pages/ManagePage";
 import SettingsPage from "./pages/SettingsPage";
 import '../core/i18n';
+import {useTranslation} from "react-i18next";
 
 export default function() {
     // probably replace this in the future with a proper navigation library
@@ -10,6 +11,7 @@ export default function() {
     const [settingsPageShown, setSettingsPageShown] = useState(false);
     const [selectedPage, setSelectedPage] = useState('none');
     const [dmlStatus, setDmlStatus] = useState('ok' as 'ok' | 'not-found' | 'out-of-date');
+    const {t} = useTranslation();
 
     const handlePageChange = function(page: 'manage' | 'download' | 'settings') {
         switch (page) {
@@ -20,7 +22,7 @@ export default function() {
                 break;
 
             case "download":
-                alert('Download is not implemented yet, sorry.');
+                alert(t('ui.navbar.download_none'));
                 break;
 
             case "settings":

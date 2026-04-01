@@ -17,12 +17,19 @@
 .yadmm-mod .left {
     position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /*flex-direction: column;*/
+    justify-content: left;
+    align-items: center;
     padding: .5rem 1rem;
     flex: 1;
     min-width: 0;
     overflow: hidden;
+}
+
+.yadmm-mod .left .priority {
+    color: var(--button-alternative-accent);
+    margin-right: 1rem;
+    font-size: 1.5rem;
 }
 
 .yadmm-mod .left-content {
@@ -154,4 +161,8 @@
     background-color: var(--button-alternative-bg-hover);
     border: 2px solid var(--button-alternative-accent);
     padding: .25rem .5rem;
+}
+
+.yadmm-mod .right .move-mod:disabled {
+    cursor: not-allowed;
 }
