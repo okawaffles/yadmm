@@ -26,8 +26,8 @@ declare global {
             cfg_checkGamePath: () => boolean;
             cfg_getGamePath: () => string;
             cfg_setGamePath: (p: string) => void;
-            // cfg_getLang: () => 'en' | 'es' | 'ja';
-            // cfg_setLang: (lang: 'en' | 'es' | 'ja') => void;
+            cfg_getLang: () => Promise<'en' | 'es' | 'ja'>;
+            cfg_setLang: (lang: 'en' | 'es' | 'ja') => void;
 
             // other
             launchGame: () => Promise<void>;

@@ -139,6 +139,15 @@ ipcMain.handle('cfg:set-path', (event, p: string) => {
     MEGAMIX_INSTALL_PATH = p;
     writeFileSync(join(app.getPath('userData'), 'yadmm.conf'), JSON.stringify(store), 'utf-8');
 });
+ipcMain.handle('cfg:get-lang', async () => {
+    console.log('get language')
+    return store.lang;
+});
+ipcMain.handle('cfg:store-lang', (_event, lang) => {
+    console.log('store language')
+    store.lang = lang;
+    writeFileSync(join(app.getPath('userData'), 'yadmm.conf'), JSON.stringify(store), 'utf-8');
+});
 
 
 if (store.game_path == '') {

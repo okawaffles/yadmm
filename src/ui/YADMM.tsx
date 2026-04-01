@@ -2,8 +2,9 @@ import React, {useEffect, useState} from "react";
 import NavBar from "./NavBar";
 import ManagePage from "./pages/ManagePage";
 import SettingsPage from "./pages/SettingsPage";
-import '../core/i18n';
+// import '../core/i18n';
 import {useTranslation} from "react-i18next";
+import i18n from "../core/i18n";
 
 export default function() {
     // probably replace this in the future with a proper navigation library
@@ -12,6 +13,13 @@ export default function() {
     const [selectedPage, setSelectedPage] = useState('none');
     const [dmlStatus, setDmlStatus] = useState('ok' as 'ok' | 'not-found' | 'out-of-date');
     const {t} = useTranslation();
+
+    useEffect(() => {
+        window.electronAPI.cfg_getLang().then((r) => {
+            if (i18n.language == r) return;
+            i18n.changeLanguage(r);
+        });
+    }, []);
 
     const handlePageChange = function(page: 'manage' | 'download' | 'settings') {
         switch (page) {

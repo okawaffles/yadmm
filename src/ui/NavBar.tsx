@@ -13,7 +13,7 @@ export default function({callback, selectedPage, dmlStatus}: {callback: Callable
         <>
             <div className={"yadmm-topbar"}>
                 <div className={"left"}>
-                    <h1>YADMM</h1>
+                    <h1>yadmm</h1>
                     <hr className={"vertical-divider"} />
                     <NavTab onClick={() => callback('manage')} name={t('ui.navbar.manage')} active={selectedPage == 'manage'} />
                     <NavTab onClick={() => callback('download')} name={t('ui.navbar.download')} active={selectedPage == 'download'} />
