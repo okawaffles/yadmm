@@ -62,12 +62,14 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
+    z-index: 0;
 }
 .yadmm-mod-list {
-    flex: 1;
+    /*flex: 1;*/
     overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 4rem;
+    z-index: 0;
 }
 
 /* settings page */

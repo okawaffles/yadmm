@@ -11,7 +11,11 @@ export default function() {
     const [managePageShown, setManagePageShown] = useState(false);
     const [settingsPageShown, setSettingsPageShown] = useState(false);
     const [selectedPage, setSelectedPage] = useState('none');
-    const [dmlStatus, setDmlStatus] = useState('ok' as 'ok' | 'not-found' | 'out-of-date');
+    const [dmlStatus, setDmlStatus] = useState('ok' as 'ok' | 'not-found' | 'out-of-date' | 'raw-text');
+    const [dmlRawText, setDmlRawText] = useState('');
+    const [updateCheckRan, setUpdateCheckRan] = useState(false);
+    const [updatables, setUpdatables] = useState([] as Array<string>);
+
     const {t} = useTranslation();
 
     useEffect(() => {
@@ -21,9 +25,30 @@ export default function() {
         });
     }, []);
 
+    window.electronAPI.onDownloadProgressUpdate((data) => {
+        if (data.status == 'downloading') {
+            setDmlStatus('raw-text');
+            setDmlRawText(`Downloading mod update ${data.percent}%`)
+        }
+
+        if (data.status == 'installing') {
+            setDmlStatus('raw-text');
+            setDmlRawText(`Installing mod update...`)
+        }
+
+        if (data.status == 'done') {
+            setDmlStatus('raw-text');
+            setDmlRawText(`Update complete!`);
+            setTimeout(() => {
+                setDmlStatus('ok');
+            }, 3_000);
+        }
+    });
+
     const handlePageChange = function(page: 'manage' | 'download' | 'settings') {
         switch (page) {
             case "manage":
+                console.log(!updateCheckRan ? 'update check not ran yet' : updatables);
                 setSettingsPageShown(false);
                 setManagePageShown(true);
                 setSelectedPage('manage');
@@ -50,12 +75,20 @@ export default function() {
 
     return(
         <>
-            <NavBar dmlStatus={dmlStatus} selectedPage={selectedPage} callback={handlePageChange} />
+            <NavBar dmlStatus={dmlStatus} dmlRawText={dmlRawText} selectedPage={selectedPage} callback={handlePageChange} />
 
             { managePageShown &&
                 <ManagePage callbackDmlStatus={(found: boolean) => {
                     setDmlStatus(found ? 'ok' : 'not-found');
-                }} />
+                }}
+                updatables={{checked: updateCheckRan, list: updatables}}
+                callbackAddUpdatable={(mod_name: string) => {
+                    const u = updatables;
+                    u.push(mod_name);
+                    setUpdatables(u);
+                    setUpdateCheckRan(true);
+                }}
+                />
             }
 
             { settingsPageShown &&

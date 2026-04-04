@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveModsPriority: (priorities: Array<ModWithPriority>) => ipcRenderer.invoke('fs:save-mod-priorities', priorities),
     toggleModEnabled: (mod_path: string, enabled: boolean) => ipcRenderer.invoke('fs:toggle-mod', mod_path, enabled),
     uninstallMod: (mod_path: string) => ipcRenderer.invoke('fs:uninstall-mod', mod_path),
+    updateMod: (mod_path: string) => ipcRenderer.invoke('fs:update-mod', mod_path),
 
     cfg_checkGamePath: () => ipcRenderer.invoke('cfg:check-game-path'),
     cfg_getGamePath: () => ipcRenderer.invoke('cfg:get-path'),
@@ -23,6 +24,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
     openKoFi: () => ipcRenderer.invoke('other:kofi'),
     getDebugString: () => ipcRenderer.invoke('other:debugstr'),
 
+    onDownloadProgressUpdate: (callback: (data: {percent: number, downloadedBytes: number, totalBytes: number, status: 'downloading' | 'installing' | 'done'}) => void) => {
+        const listener = (_event: IpcRendererEvent, data: {percent: number, downloadedBytes: number, totalBytes: number, status: 'downloading' | 'installing' | 'done'}) => {
+            callback(data);
+        }
+
+        ipcRenderer.on('download-progress', listener);
+
+        return () => {
+            ipcRenderer.removeListener('download-progress', listener);
+        }
+    },
     onGameStatusUpdate: (callback: (data: {status: boolean}) => void) => {
         const listener = (_event: IpcRendererEvent, data: {status: boolean}) => {
             callback(data);

@@ -3,10 +3,10 @@ import React from "react";
 import './NavBar.css';
 import NavTab from "./NavTab";
 import LaunchGame from "./components/LaunchGame";
-import DMMNotice from "./components/DMLNotice";
 import {useTranslation} from "react-i18next";
+import DMLNotice from "./components/DMLNotice";
 
-export default function({callback, selectedPage, dmlStatus}: {callback: CallableFunction, selectedPage: string, dmlStatus: 'ok' | 'not-found' | 'out-of-date'}) {
+export default function({callback, selectedPage, dmlStatus, dmlRawText}: {callback: CallableFunction, selectedPage: string, dmlStatus: 'ok' | 'not-found' | 'out-of-date' | 'raw-text', dmlRawText?: string}) {
     const {t} = useTranslation();
 
     return(
@@ -21,7 +21,7 @@ export default function({callback, selectedPage, dmlStatus}: {callback: Callable
 
                 <div className={"right"}>
                     { dmlStatus != 'ok' &&
-                        <DMMNotice notice={"not-found"} />
+                        <DMLNotice notice={dmlStatus} rawText={dmlRawText} />
                     }
                     <LaunchGame />
                     <NavTab onClick={() => callback('settings')} name={t('ui.navbar.settings')} active={selectedPage == 'settings'} />

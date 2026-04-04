@@ -21,6 +21,8 @@ declare global {
 
             toggleModEnabled: (mod_path: string, enabled: boolean) => void;
             uninstallMod: (mod_path: string) => Promise<boolean>;
+            updateMod: (mod_path: string) => Promise<boolean>;
+            onDownloadProgressUpdate: (callback: (data: {percent: number, downloadedBytes: number, totalBytes: number, status: 'downloading' | 'installing' | 'done'}) => void) => CallableFunction<void>;
 
             // config
             cfg_checkGamePath: () => boolean;

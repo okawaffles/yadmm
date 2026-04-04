@@ -10,8 +10,8 @@
     border-radius: 1rem;
     margin: 4px 0;
     overflow: hidden;
-    z-index: 0;
     pointer-events: none;
+    z-index: 10;
 }
 
 .yadmm-mod .left {
@@ -24,6 +24,7 @@
     flex: 1;
     min-width: 0;
     overflow: hidden;
+    z-index: 10;
 }
 
 .yadmm-mod .left .priority {
@@ -34,13 +35,42 @@
 
 .yadmm-mod .left-content {
     position: relative;
-    z-index: 2;
+    z-index: 5;
 }
 
 .yadmm-mod .left p {
     margin: 0;
     font-weight: bold;
     font-size: 1rem;
+    z-index: 99;
+}
+
+.yadmm-mod .left p .update-text {
+    font-style: italic;
+    /* DUDE WHY IS THE MOD LIST IN FRONT OF IT ONLY ON THE LEFT??? */
+    z-index: 99;
+    pointer-events: all;
+    cursor: pointer;
+}
+
+.yadmm-mod .left p .update-text.blue {
+    color: var(--button-alternative-accent);
+}
+
+.yadmm-mod .left p .update-text.red {
+    color: var(--button-disabled-accent);
+}
+
+.yadmm-mod .left .top {
+    display: flex;
+    align-items: center;
+}
+
+.yadmm-mod .left .dma-logo, .yadmm-mod .left .gb-logo {
+    width: 1.5rem;
+    margin: 0 0 0 1em;
+    padding: 0;
+    pointer-events: all;
 }
 
 .yadmm-mod .left p:nth-child(2) {

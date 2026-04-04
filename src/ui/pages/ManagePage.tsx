@@ -5,7 +5,7 @@ import {Tooltip} from "react-tooltip";
 import {Mod, ModWithPriority} from "../../types/ui";
 import {useTranslation} from "react-i18next";
 
-export default function ({callbackDmlStatus}: { callbackDmlStatus: CallableFunction }) {
+export default function ({callbackDmlStatus, callbackAddUpdatable, updatables}: { callbackDmlStatus: CallableFunction, callbackAddUpdatable: CallableFunction, updatables: {checked: boolean, list: Array<string>} }) {
     const [modsLoaded, setModsLoaded] = useState(false);
     const [modList, setModList] = useState([] as Array<Mod>);
     const [modListByPriority, setModListByPriority] = useState([] as Array<ModWithPriority>);
@@ -153,6 +153,13 @@ export default function ({callbackDmlStatus}: { callbackDmlStatus: CallableFunct
                                     name={item.name}
                                     enabled={item.enabled}
                                     author={item.author}
+                                    mod_site={
+                                        (item.mod_json.homepage || '').includes('divamodarchive') ? 'dma' :
+                                            (item.mod_json.homepage || '').includes('gamebanana') ? 'gamebanana' : 'none'
+                                    }
+                                    mod_json={item.mod_json}
+                                    updatable={!updatables.checked ? 'unknown' : (updatables.list.includes(item.name) ? 'yes' : 'no')}
+                                    callbackSetUpdatable={(mod_name: string)=> callbackAddUpdatable(mod_name)}
                                     key={item.id}
                                     path={item.path}
                                     edit_mode={editPriorityMode}
@@ -182,6 +189,7 @@ export default function ({callbackDmlStatus}: { callbackDmlStatus: CallableFunct
                         <Tooltip id={'move-up-tooltip'}></Tooltip>
                         <Tooltip id={'move-down-tooltip'}></Tooltip>
                         <Tooltip id={'enable-priority-locked'}></Tooltip>
+                        <Tooltip id={'mod-site-tooltip'}></Tooltip>
                     </div>
                 }
 

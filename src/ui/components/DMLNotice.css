@@ -11,3 +11,6 @@
 .yadmm-dmm-notice.out-of-date {
     color: orange;
 }
+.yadmm-dmm-notice.raw-text {
+    color: var(--button-alternative-accent);
+}
