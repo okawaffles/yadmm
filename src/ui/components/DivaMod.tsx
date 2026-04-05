@@ -63,6 +63,13 @@ export default function ({name, author, enabled, version, imageUrl, path, refres
 
                     res.json().then(data => {
                         console.log(data);
+
+                        if (data.name != mod_json.name) {
+                            setUpdateTextColor('red');
+                            setUpdateText(t('ui.manage.mod.update_failed_mismatch'));
+                            return;
+                        }
+
                         const post_date = new Date(data.time);
                         if (post_date.getTime() > current_mod_time.getTime()) {
                             setUpdateTextColor('blue');
@@ -87,9 +94,37 @@ export default function ({name, author, enabled, version, imageUrl, path, refres
             }
         }
 
-        // gamebanana updating not supported
-        // i think they require an API key?
-        if (mod_site == 'gamebanana') setUpdateText('');
+        // gamebanana updating doesn't need metadata checks
+        // because they're sane and don't reuse ids
+        if (mod_site == 'gamebanana') {
+            // @ts-expect-error .at() works fine, ts just complaining for no reason
+            const gb_id = mod_json.homepage.split('/').at(-1);
+            const url = `https://gamebanana.com/apiv11/Mod/${gb_id}/Updates?_nPage=1&_nPerpage=5`
+            fetch(url).then(resp => {
+                if (!resp.ok) {
+                    setUpdateTextColor('red');
+                    setUpdateText(t('ui.manage.mod.update_failed'));
+                    return;
+                }
+
+                try {
+                    resp.json().then(data => {
+                        console.log(data);
+                        if (data._aRecords[0]._sVersion != version) {
+                            setUpdateTextColor('blue');
+                            setUpdateText(t('ui.manage.mod.updatable'));
+                            setAllowUpdating(true);
+                            return;
+                        } else setUpdateText('');
+                    });
+                } catch (err) {
+                    console.error(err);
+                    setUpdateTextColor('red');
+                    setUpdateText(t('ui.manage.mod.update_failed'));
+                    return;
+                }
+            });
+        }
     }, []);
 
     return (

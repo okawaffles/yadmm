@@ -50,7 +50,9 @@ i18next
                                 move_up: 'Move Up',
                                 move_down: 'Move Down',
                                 no_version: 'No Version Specified',
+                                update_checking: 'Checking for Updates...',
                                 update_failed: 'Update Check Failed',
+                                update_failed_mismatch: 'Update Check Failed: Metadata Name Mismatch',
                                 update_confirm: 'Update this mod to the latest version?',
                                 updating: 'Updating Mod...',
                             },
@@ -87,12 +89,12 @@ i18next
                             manage: 'Dirigir',
                             download: 'Descargar',
                             download_none: 'Lo siento, modo descargar no implementado todavía.',
-                            settings: 'Configuración',
+                            settings: 'Ajustes',
                             launch: {
                                 ready: 'Iniciar',
                                 in_progress: 'Iniciando...',
                                 running: 'En Ejecución',
-                                bad_path: '¡Fijar el lugar a tu DivaMegaMix.exe en la configuración por favor!',
+                                bad_path: '¡Fijar el lugar a tu DivaMegaMix.exe en la ajustes por favor!',
                             },
                             dml_notice: {
                                 not_found: 'DivaModLoader No Encontrarse',
@@ -120,7 +122,9 @@ i18next
                                 move_up: 'Mover Arriba',
                                 move_down: 'Mover Abajo',
                                 no_version: 'Versión No Especificado',
+                                update_checking: 'Buscando Actualizaciones...',
                                 update_failed: 'Comprobar Actualización Fallido',
+                                update_failed_mismatch: 'Comprobar Actualización Fallido: hay un desequilibrios en el nombre de este mod',
                                 update_confirm: '¿Actualizar este mod a versión último?',
                                 updating: 'Actualizando Mod...'
                             },
@@ -128,7 +132,7 @@ i18next
                             loading_priority: 'Cargando prioridad, esperar por favor...',
                             saving_priority: 'Guardo prioridad, esperar por favor...',
                             no_mods: "¡No tienes alguna mods instalados! No puedo ayudar con eso ahora mismo.",
-                            failed: "Cargar mods fallado, ¡revisar el lugar a tu DivaMegaMix.exe en la configuración por favor!"
+                            failed: "Cargar mods fallado, ¡revisar el lugar a tu DivaMegaMix.exe en la ajustes por favor!"
                         },
                         settings: {
                             title: 'Configuración',

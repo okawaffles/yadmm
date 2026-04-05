@@ -39,6 +39,11 @@ export default function() {
         if (data.status == 'done') {
             setDmlStatus('raw-text');
             setDmlRawText(`Update complete!`);
+            setUpdateCheckRan(false);
+            setSelectedPage('none');
+            setTimeout(() => {
+                setSelectedPage('manage'); // jank reload
+            }, 500);
             setTimeout(() => {
                 setDmlStatus('ok');
             }, 3_000);
